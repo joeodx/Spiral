@@ -27,3 +27,11 @@ body {
   }
 }
 
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.items-center.object-scale-down.mx-auto.h-60  {
+  animation: spin infinite 3s linear;
+}
