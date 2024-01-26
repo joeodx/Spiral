@@ -17,20 +17,18 @@ const Chat = () => {
 
   
   const simulateAIResponse = (text) => {
-    setMessages([...messages, { text, type: 'ai' }]);
+    setMessages([...messages, { text, type: "ai" }]);
   };
   
-
   const handleUserMessage = (userInput) => {
-    const userMessage = { text: `You: ${userInput}`, type: 'user' };
-    const aiResponse = { text: getMockAIResponse(userInput), type: 'ai' };
-  
+    const userMessage = { text: `You: ${userInput}`, type: "user" };
+    const aiResponse = { text: getMockAIResponse(userInput), type: "ai" };
+
     setMessages([...messages, userMessage, aiResponse]);
-  };
   
   if (stopSpiral) {
     // If the spiral is stopped, display a different message
-    setMessages([...messages, userMessage, { text: "Well done! You've stopped the spiral!", type: 'ai' }]);
+    setMessages([...messages, userMessage, { text: "Well done! You've stopped the spiral!", type: "ai" }]);
     return;
   }
 
@@ -43,7 +41,7 @@ const Chat = () => {
       // Convert user input to lowercase for case-insensitive matching
       let response = "";
     
-      if (userInput.includes('mistakes')) {
+      if (userInput.includes("mistakes")) {
         response = "It's okay to make mistakes; we all do. Making mistakes is a natural part of the human experience, and it's through these experiences that we learn and grow. Each mistake provides an opportunity for self-reflection and improvement. Instead of dwelling on the mistake itself, focus on what you've learned and how you can apply that knowledge in the future. Embrace the lessons, and remember that personal growth often comes from overcoming challenges. You are on a journey of continuous learning and development. What other thoughts or questions do you have?";
       } else if (userInput.includes('overwhelmed') || userInput.includes('stressed')) {
         response = "Feeling overwhelmed is common, especially in today's fast-paced world. It's essential to recognize that you're not alone in experiencing these emotions. Consider breaking down your tasks into smaller, more manageable steps. Prioritize what needs immediate attention and allow yourself breaks to recharge. Seeking support from friends, family, or colleagues can provide additional perspectives and help alleviate stress. Remember that self-care is a crucial aspect of managing stress—taking time for activities you enjoy and practicing mindfulness can make a significant difference. How can I assist you further?";
