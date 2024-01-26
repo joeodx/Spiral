@@ -1,12 +1,14 @@
 
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [showChat, setShowChat] = useState(false); // New state to track chat visibility
   const [stoppedSpiral, setStoppedSpiral] = useState(false);
+   const [completedChat, setCompletedChat] = useState(false);
+  const [placeholderText, setPlaceholderText] = useState("'I'm struggling with low feelings of self worth...'");
   const messagesEndRef = useRef(null);
   
 
@@ -47,6 +49,9 @@ const Chat = () => {
   
       // Convert user input to lowercase for case-insensitive matching
       let response = "";
+      if (response === "") {
+        setPlaceholderText("'Yes or I want to offload more...'");
+      }
     
       if (userInput.includes('mistakes')) {
         response = "It's okay to make mistakes; we all do. Making mistakes is a natural part of the human experience, and it's through these experiences that we learn and grow. Each mistake provides an opportunity for self-reflection and improvement. Instead of dwelling on the mistake itself, focus on what you've learned and how you can apply that knowledge in the future. Embrace the lessons, and remember that personal growth often comes from overcoming challenges. You are on a journey of continuous learning and development. What other thoughts or questions do you have?";
@@ -65,31 +70,39 @@ const Chat = () => {
       } else if (userInput.includes('anxious') || userInput.includes('future')) {
         response = "Feeling anxious about the future is a common concern. It's important to focus on the present moment and break down future plans into smaller, more manageable tasks. Create a realistic timeline and set achievable goals to reduce feelings of overwhelm. Consider talking to someone you trust, such as friends, family, or a mentor, about your concerns. Seeking support can provide additional perspectives and alleviate anxiety. Remember that the future is uncertain, and it's okay not to have everything figured out. What specific aspects of the future are causing you anxiety?";
       } else {
-        // Default response if none of the specific conditions are met
-        response = "I received \"" + userInput + "\". How can I assist you further?";
-      }
-    
-      // Add the additional prompt
-     response += " Or are you ready to stop the spiral? ";
-  if (userInput === 'yes' && !stoppedSpiral) {
-    setStoppedSpiral(true); // Update state to indicate the user wants to stop the spiral
-    setShowChat(false); // Hide the chat container and text input
-    response = "Well done for stopping the spiral! Remember to be kind to yourself.";
+    // Default response if none of the specific conditions are met
+
+    // Default response if none of the specific conditions are met
+    response = "I received \"" + userInput + "\". How can I assist you further?";
+    response += " Or are you ready to stop the spiral? ";
+    if (userInput === 'yes') {
+      setStoppedSpiral(true);
+     
+      setShowChat(false);
+      setCompletedChat(true);
+      response = "Well done for stopping the spiral! Remember to be kind to yourself.";
+    }
   }
-    
-  };
+
+  return response;
+};
   
 
   const startChat = () => {
     setShowChat(true);
   };
 
- 
+   const restartChat = () => {
+    setCompletedChat(false);
+    setStoppedSpiral(false);
+    setMessages([]);
+    startChat(); // Optionally, you can start the chat automatically after restarting
+  };
   return (
     
 
     <div className="flex flex-col items-center justify-top h-screen bg-fixed">
-      {!showChat && (
+      {!completedChat && !showChat && (
         <button onClick={startChat} className="bg-blue-500 text-white p-2 rounded-md mb-4">
           Let's Get Started
         </button>
@@ -113,7 +126,7 @@ const Chat = () => {
           {/* Text Input */}
           <input
             type="text"
-            placeholder="'Im struggling with low feelings of self worth...'"
+             placeholder={placeholderText}
             className="p-1 w-2/4  border rounded w-2/4 text-center"
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
@@ -125,9 +138,12 @@ const Chat = () => {
         </>
       )}
        {stoppedSpiral && (
-        <div className="text-center">
+        <div className="text-center text-lg">
           <p>Well done for stopping the spiral!</p>
           <p>Remember to be kind to yourself.</p>
+           <button onClick={restartChat} className="bg-blue-500 text-white p-2 rounded-md mb-4">
+            Start Again
+          </button>
         </div>
       )}
    
