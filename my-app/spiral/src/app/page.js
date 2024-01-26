@@ -1,11 +1,12 @@
 
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [showChat, setShowChat] = useState(false); // New state to track chat visibility
-  const [stopSpiral, setStopSpiral] = useState(false);
+  const [stoppedSpiral, setStoppedSpiral] = useState(false);
   const messagesEndRef = useRef(null);
   
 
@@ -69,11 +70,12 @@ const Chat = () => {
       }
     
       // Add the additional prompt
-      response += " Or are you ready to stop the spiral? ";
-      if (response.toLowerCase() === 'yes') {
-        setShowText(false); // Hide the text box
-      }
-      return response;
+     response += " Or are you ready to stop the spiral? ";
+  if (userInput === 'yes' && !stoppedSpiral) {
+    setStoppedSpiral(true); // Update state to indicate the user wants to stop the spiral
+    setShowChat(false); // Hide the chat container and text input
+    response = "Well done for stopping the spiral! Remember to be kind to yourself.";
+  }
     
   };
   
@@ -122,6 +124,13 @@ const Chat = () => {
           />
         </>
       )}
+       {stoppedSpiral && (
+        <div className="text-center">
+          <p>Well done for stopping the spiral!</p>
+          <p>Remember to be kind to yourself.</p>
+        </div>
+      )}
+   
     </div>
   );
 };
@@ -131,6 +140,7 @@ const Chat = () => {
 export default function Home() {
   return (
     <main>
+
       <div className="" >
       <h1 class="text-center text-2xl pt-6  ">Spiral</h1>
       <h2 class="text-center text-lg">Stop your negative thoughts in their tracks</h2>
@@ -142,6 +152,7 @@ export default function Home() {
       <div>
       <Chat/>
       </div>
+
     </main>
   );
 }
