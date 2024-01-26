@@ -9,6 +9,8 @@ const Chat = () => {
   const [stoppedSpiral, setStoppedSpiral] = useState(false);
    const [completedChat, setCompletedChat] = useState(false);
   const [placeholderText, setPlaceholderText] = useState("'I'm struggling with low feelings of self worth...'");
+  
+  const [rotateSpiral, setRotateSpiral] = useState(true);
   const messagesEndRef = useRef(null);
   
 
@@ -77,7 +79,7 @@ const Chat = () => {
     response += " Or are you ready to stop the spiral? ";
     if (userInput === 'yes') {
       setStoppedSpiral(true);
-     
+      setRotateSpiral(false);
       setShowChat(false);
       setCompletedChat(true);
       response = "Well done for stopping the spiral! Remember to be kind to yourself.";
@@ -95,6 +97,7 @@ const Chat = () => {
    const restartChat = () => {
     setCompletedChat(false);
     setStoppedSpiral(false);
+    setRotateSpiral(true);
     setMessages([]);
     startChat(); // Optionally, you can start the chat automatically after restarting
   };
@@ -102,6 +105,16 @@ const Chat = () => {
     
 
     <div className="flex flex-col items-center justify-top h-screen bg-fixed">
+       {/* Conditional rendering for the rotating spiral */}
+<div className="flex justify-center items-center mb-4">
+  {/* Use inline style to conditionally set animation property */}
+  <img
+    style={stoppedSpiral ? { animation: 'none' } : {}}
+    className="items-center object-scale-down mx-auto h-60"
+    src="/Spiral.png"  // Reference the image from the public folder
+    alt="spiral"
+  />
+</div>
       {!completedChat && !showChat && (
         <button onClick={startChat} className="bg-blue-500 text-white p-2 rounded-md mb-4">
           Let's Get Started
@@ -146,6 +159,8 @@ const Chat = () => {
           </button>
         </div>
       )}
+
+      
    
     </div>
   );
@@ -162,7 +177,7 @@ export default function Home() {
       <h2 class="text-center text-lg">Stop your negative thoughts in their tracks</h2>
       </div>
       <div class="flex justify-center items-center">
-      <img class="items-center object-scale-down mx-auto h-60" src=".//Spiral.png" alt="spiral"></img>
+      {/* <img class="items-center object-scale-down mx-auto h-60" src=".//Spiral.png" alt="spiral"></img> */}
       </div>
   
       <div>
