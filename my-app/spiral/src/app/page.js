@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 
+
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [showChat, setShowChat] = useState(false); // New state to track chat visibility
@@ -111,7 +112,7 @@ const Chat = () => {
   <img
     style={stoppedSpiral ? { animation: 'none' } : {}}
     className="items-center object-scale-down mx-auto h-60"
-    src="/Spiral.png"  // Reference the image from the public folder
+    src=".//spiral.png"  // Reference the image from the public folder
     alt="spiral"
   />
 </div>
