@@ -76,7 +76,7 @@ const Chat = () => {
     // Default response if none of the specific conditions are met
     response + " Or are you ready to stop the spiral? ";
     // Default response if none of the specific conditions are met
-    response = "Sorry I am working on a delicate response to this as we speak \"" + userInput + "\" Sorry I cant help right now";
+    response = "Sorry I am working on a delicate response to this as we speak \"" + userInput + "\" Was there anything else?" ;
     
     if (userInput === "yes") {
       setStoppedSpiral(true);
