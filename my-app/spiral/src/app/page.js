@@ -1,6 +1,7 @@
 
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
+import { Transition } from '@headlessui/react'
 
 
 
@@ -10,7 +11,7 @@ const Chat = () => {
   const [stoppedSpiral, setStoppedSpiral] = useState(false);
    const [completedChat, setCompletedChat] = useState(false);
   const [placeholderText, setPlaceholderText] = useState("'I'm struggling with low feelings of self worth...'");
-  
+ 
   const [rotateSpiral, setRotateSpiral] = useState(true);
   const messagesEndRef = useRef(null);
   
@@ -184,11 +185,20 @@ const Chat = () => {
         <div className="text-center text-lg">
           <p>Well done for stopping the spiral!</p>
           <p>Remember to be kind to yourself.</p>
+         
+        </div>
+      )}
+
+{stoppedSpiral && (
+        
+        <div className="text-center text-lg">
+         
            <button onClick={restartChat} className="bg-blue-500 text-white p-2 rounded-md mb-4">
             Start Again
           </button>
         </div>
       )}
+
 
       
    
@@ -199,12 +209,26 @@ const Chat = () => {
 
 
 export default function Home() {
+  const [isShowing, setIsShowing] = useState(true)
   return (
-    <main>
+    <main className="transition-opacity duration-533333100 ease-in-out delay-111111111300">
 
-      <div className="" >
-      <h1 class="text-center text-2xl pt-6  ">Spiral</h1>
-      <h2 class="text-center text-lg">Stop your negative thoughts in their tracks</h2>
+
+      <div>
+      <Transition
+        show={isShowing}
+        enter="transition-opacity duration-11175"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-150"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+      >
+      
+        
+      <h1 class="text-center text-2xl pt-6 transform: load:scale-75 transition duration-2010"> Spiral</h1>
+      </Transition>
+      <h2 class="text-center text-lg" >Stop your negative thoughts in their tracks</h2>
       </div>
       <div class="flex justify-center items-center">
       {/* <img class="items-center object-scale-down mx-auto h-60" src=".//Spiral.png" alt="spiral"></img> */}

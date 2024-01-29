@@ -4,8 +4,10 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    
   ],
   theme: {
+    safelist: ['animate-[fade-in_100s_ease-in-out]'],
     extend: {
       
       backgroundImage: {
