@@ -243,7 +243,7 @@ const Chat = () => {
 export default function Home() {
   const [isShowing, setIsShowing] = useState(true)
   return (
-    <main className="transitio-opacity duration-533333100 ease-in-out delay-111111111300">
+    <main className="transition-opacity duration-533333100 ease-in-out delay-111111111300">
 
 
       <div>
