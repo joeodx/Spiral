@@ -1,5 +1,6 @@
 
 'use client'
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Transition } from '@headlessui/react'
 
@@ -11,11 +12,13 @@ const Chat = () => {
   const [stoppedSpiral, setStoppedSpiral] = useState(false);
    const [completedChat, setCompletedChat] = useState(false);
   const [placeholderText, setPlaceholderText] = useState("'I'm struggling with low feelings of self worth...'");
+  const [mentalHealthQuotes, setMentalHealthQuotes] = useState(['']);
  
+  const [quotes, setQuotes] = useState([]);
   const [rotateSpiral, setRotateSpiral] = useState(true);
   const messagesEndRef = useRef(null);
   
-
+ 
 
   useEffect(() => {
     // Simulate initial AI message
@@ -24,7 +27,29 @@ const Chat = () => {
     }
   }, [showChat]);
 
-  
+  // Read the JSON file
+
+  useEffect(() => {
+    // Fetch data from the JSON file
+    fetch('/quotes.json')
+      .then(response => response.json())
+      .then(data => setQuotes(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []); // Empty dependency array means this effect runs once on mount
+
+  // Function to get a random quote
+  function getRandomQuote() {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    return quotes[randomIndex];
+  }
+
+
+
+
+
+
+
+
   const simulateAIResponse = (text) => {
     setMessages([...messages, { text, type: "ai" }]);
   };
@@ -45,6 +70,7 @@ const Chat = () => {
     // Scroll to the bottom of the chat window when messages change
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   }, [messages]);
+  
   
 
   const getMockAIResponse = (userInput) => {
@@ -131,46 +157,45 @@ const Chat = () => {
     setMessages([]);
     startChat(); // Optionally, you can start the chat automatically after restarting
   };
-  return (
-    
 
+  
+  return (
     <div className="flex flex-col items-center justify-top h-screen bg-fixed">
-       {/* Conditional rendering for the rotating spiral */}
-<div className="flex justify-center items-center mb-4">
-  {/* Use inline style to conditionally set animation property */}
-  <img
-    style={stoppedSpiral ? { animation: 'none' } : {}}
-    className="items-center object-scale-down mx-auto h-60"
-    src=".//spiral.png"  // Reference the image from the public folder
-    alt="spiral"
-  />
-</div>
+      <div className="flex justify-center items-center mb-4">
+        <img
+          style={stoppedSpiral ? { animation: 'none' } : {}}
+          className="items-center object-scale-down mx-auto h-60"
+          src=".//spiral.png"
+          alt="spiral"
+        />
+      </div>
+
       {!completedChat && !showChat && (
         <button onClick={startChat} className="bg-blue-500 text-white p-2 rounded-md mb-4">
-          Let&apos;s Get Started
+          Let's Get Started
         </button>
       )}
 
       {showChat && (
         <>
-          {/* Chat Container */}
           <div className="w-2/4 h-1/5 mx-auto border p-4 text-center text-sm overflow-y-auto mb-4">
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`mb-2 ${message.type === 'user' ? 'text-right' : 'text-left'} ${message.type === 'ai' ? 'mx-auto' : ''}`}
+                className={`mb-2 ${
+                  message.type === 'user' ? 'text-right' : 'text-left'
+                } ${message.type === 'ai' ? 'mx-auto' : ''}`}
               >
-                {message.text}
+               
               </div>
             ))}
-            <div ref={messagesEndRef} /> {/* Reference for scrolling to bottom */}
+            <div ref={messagesEndRef} />
           </div>
 
-          {/* Text Input */}
           <input
             type="text"
-             placeholder={placeholderText}
-            className="p-1 w-2/4  border rounded w-2/4 text-center"
+            placeholder={placeholderText}
+            className="p-1 w-2/4 border rounded w-2/4 text-center"
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 handleUserMessage(e.target.value);
@@ -180,28 +205,35 @@ const Chat = () => {
           />
         </>
       )}
-       {stoppedSpiral && (
-        
+<>
+<button onClick={getRandomQuote} className="bg-green-500 text-white p-2 rounded-md mt-2">
+            Fetch a Quote to Soothe
+          </button>
+
+          {mentalHealthQuotes.length > 0 && (
+            <div className="mt-4">
+           
+              <blockquote className="text-center italic">{mentalHealthQuotes[mentalHealthQuotes.length - 1]}</blockquote>
+            </div>
+          )}
+
+        </>
+     
+
+      {stoppedSpiral && (
         <div className="text-center text-lg">
           <p>Well done for stopping the spiral!</p>
           <p>Remember to be kind to yourself.</p>
-         
         </div>
       )}
 
-{stoppedSpiral && (
-        
+      {stoppedSpiral && (
         <div className="text-center text-lg">
-         
-           <button onClick={restartChat} className="bg-blue-500 text-white p-2 rounded-md mb-4">
+          <button onClick={restartChat} className="bg-blue-500 text-white p-2 rounded-md mb-4">
             Start Again
           </button>
         </div>
       )}
-
-
-      
-   
     </div>
   );
 };
@@ -235,6 +267,7 @@ export default function Home() {
       </div>
   
       <div>
+        
       <Chat/>
       </div>
 
