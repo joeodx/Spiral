@@ -249,7 +249,7 @@ export default function Home() {
       <div>
       <Transition
         show={isShowing}
-        enter="transition-opacity duration-11175"
+        enter="transition-opacity duration-1117"
         enterFrom="opacity-0"
         enterTo="opacity-100"
         leave="transition-opacity duration-150"
